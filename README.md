@@ -2,37 +2,102 @@
 
 Simulation and analysis of DC-DC converters (buck, boost, buck-boost) with waveform visualization.
 
-## Features
-- Buck converter simulation
-- Boost converter simulation
-- Buck-boost converter simulation
-- Component selection calculator
-- Efficiency analysis
-- Waveform visualization (V, I, ripple)
-- Thermal model estimation
-- Interactive parameter tuning (web UI)
+DC-DC 变换器（降压、升压、升降压）仿真与波形分析工具。
 
-## Converter Models
+---
+
+## Features / 功能特性
+
+- **Buck converter simulation** — Vout = D × Vin
+  降压变换器仿真
+- **Boost converter simulation** — Vout = Vin / (1-D)
+  升压变换器仿真
+- **Buck-boost converter simulation** — Vout = -D × Vin / (1-D)
+  升降压变换器仿真
+- **Component selection calculator** — Inductor, capacitor sizing
+  元器件选型计算 — 电感、电容参数计算
+- **Efficiency analysis** — Conduction loss, switching loss estimation
+  效率分析 — 导通损耗、开关损耗估算
+- **Waveform visualization** — Voltage and current ripple plots
+  波形可视化 — 电压电流纹波图表
+- **Interactive parameter tuning** — Adjust duty cycle, frequency, etc.
+  交互式参数调节 — 调整占空比、频率等
+
+---
+
+## Converter Models / 变换器模型
+
 ```
-Buck:      Vin ──[S]──[L]──[C]── Vout
-                └──[D]──┘
+Buck (降压):       Vin ──[S]──[L]──[C]── Vout
+                        └──[D]──┘
 
-Boost:     Vin ──[L]──[S]── Vout
-                   └──[D]──[C]──
+Boost (升压):      Vin ──[L]──[S]── Vout
+                           └──[D]──[C]──
 
-Buck-Boost: Vin ──[S]──[L]── Vout
-                 └──[D]──[C]──
+Buck-Boost (升降压): Vin ──[S]──[L]── Vout
+                          └──[D]──┘
 ```
 
-## Tech Stack
-- **Simulation**: C++17 (numerical integration - RK4)
-- **Frontend**: HTML5 Canvas for waveform plotting
-- **Build**: CMake
+---
 
-## Skills Demonstrated
-- Power electronics (converter topologies, duty cycle)
-- Numerical simulation (Runge-Kutta, differential equations)
-- Circuit analysis (inductor volt-second balance)
-- C++ numerical computing
+## Project Structure / 项目结构
 
-Built by Isaac © 2026
+```
+power-electronics-lab/
+├── sim/
+│   ├── __init__.py           # Package init / 包初始化
+│   ├── buck_converter.py     # Buck converter model / 降压模型
+│   ├── boost_converter.py    # Boost converter model / 升压模型
+│   ├── buck_boost_converter.py  # Buck-boost model / 升降压模型
+│   ├── utils.py              # Shared utilities / 通用工具
+│   └── plot_waveforms.py     # Waveform plotting / 波形绘制
+├── examples/
+│   └── buck_example.py       # Example usage / 使用示例
+├── requirements.txt          # Python dependencies / Python 依赖
+└── README.md
+```
+
+---
+
+## Quick Start / 快速开始
+
+```bash
+# Install dependencies / 安装依赖
+pip install -r requirements.txt
+
+# Run example / 运行示例
+python examples/buck_example.py
+```
+
+### Usage in Code / 代码中使用
+
+```python
+from sim import BuckConverter
+from sim.plot_waveforms import plot_waveforms
+
+buck = BuckConverter(
+    vin=12.0,       # 12V input / 12V输入
+    duty=0.5,       # 50% duty cycle / 50%占空比
+    f_sw=100e3,     # 100kHz switching freq / 100kHz开关频率
+    l=47e-6,        # 47µH inductor / 47µH电感
+    c_out=100e-6,   # 100µF output cap / 100µF输出电容
+    r_load=10.0     # 10Ω load / 10Ω负载
+)
+
+print(f"Vout = {buck.vout:.2f}V")          # 6.00V
+print(f"Ripple = {buck.voltage_ripple*1000:.2f}mV")
+
+t, v_out, i_l = buck.simulate(t_end=0.001)
+plot_waveforms(t, v_out, i_l)
+```
+
+---
+
+## License / 许可证
+MIT License
+
+## Author / 作者
+Isaac — Diploma in Electronic Engineering, TAR UMT
+
+Built with ❤️ for learning power electronics
+用 ❤️ 构建，用于学习电力电子技术
