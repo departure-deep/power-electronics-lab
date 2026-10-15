@@ -94,7 +94,9 @@ plot_waveforms(t, v_out, i_l)
 ---
 
 ## License / 许可证
-MIT License
+This project is distributed under the MIT License. See [LICENSE](LICENSE).
+
+本项目采用 MIT 许可证，完整条款见 [LICENSE](LICENSE)。仓库保留原始版权声明；根据 MIT 许可证，你可以学习、修改和再发布本项目，但应保留许可证和版权声明。
 
 ## Command-line tool / 命令行工具
 
