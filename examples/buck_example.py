@@ -3,7 +3,11 @@
 """
 
 import sys
-sys.path.insert(0, '..')
+from pathlib import Path
+
+# Make the example runnable from the repository root or from this directory.
+# 将示例脚本固定到仓库根目录，避免依赖当前工作目录。
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from sim import BuckConverter
 from sim.plot_waveforms import plot_waveforms

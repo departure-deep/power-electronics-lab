@@ -96,6 +96,38 @@ plot_waveforms(t, v_out, i_l)
 ## License / 许可证
 MIT License
 
+## Command-line tool / 命令行工具
+
+From the repository root:
+
+```bash
+python -m sim.cli --vin 12 --duty 0.5 --frequency 100000
+```
+
+Run the basic checks with:
+
+```bash
+python -m unittest discover -s tests
+```
+
+Compare several duty cycles automatically:
+
+```bash
+python -m sim.sweep
+```
+
+This is an ideal analytical model with estimated ripple, not a switch-level circuit simulation or hardware measurement.
+
+Theory notes and assumptions are documented in [THEORY_NOTES.md](THEORY_NOTES.md).
+
+The first LTspice switch-level netlist is [spice/buck_ideal.cir](spice/buck_ideal.cir). It is intentionally an idealized model for learning switching behavior, not a hardware-ready design.
+
+The graphical schematic version is [spice/buck_ideal.asc](spice/buck_ideal.asc).
+
+The comparison netlist with greatly reduced device losses is [spice/buck_lossless.cir](spice/buck_lossless.cir).
+
+The first simulation procedure and observations are recorded in [SIMULATION_LOG.md](SIMULATION_LOG.md).
+
 ## Author / 作者
 Isaac — Diploma in Electronic Engineering, TAR UMT
 

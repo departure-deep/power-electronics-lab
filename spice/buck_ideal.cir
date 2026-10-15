@@ -1,0 +1,25 @@
+* Ideal switch-level Buck converter, first LTspice model
+* Vin=12 V, duty=50%, fsw=100 kHz, L=47 uH, C=100 uF, Rload=10 ohm
+
+V1 in 0 12
+Vgate gate 0 PULSE(0 5 0 10n 10n 5u 10u)
+S1 in sw gate 0 SWMOD
+.model SWMOD SW(Ron=0.05 Roff=1Meg Vt=2 Vh=0.1)
+D1 0 sw 1N914
+L1 sw out 47u
+C1 out 0 100u
+Rload out 0 10
+
+.tran 0 2m 0 10n
+
+* Automatic steady-state measurements from 1.5 ms to 2 ms
+.meas tran VOUT_AVG AVG V(out) FROM 1.5m TO 2m
+.meas tran VOUT_MAX MAX V(out) FROM 1.5m TO 2m
+.meas tran VOUT_MIN MIN V(out) FROM 1.5m TO 2m
+.meas tran VOUT_RIPPLE PARAM VOUT_MAX-VOUT_MIN
+.meas tran IL_AVG AVG I(L1) FROM 1.5m TO 2m
+.meas tran IL_MAX MAX I(L1) FROM 1.5m TO 2m
+.meas tran IL_MIN MIN I(L1) FROM 1.5m TO 2m
+.meas tran IL_RIPPLE PARAM IL_MAX-IL_MIN
+
+.end

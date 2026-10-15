@@ -13,6 +13,10 @@ class BuckConverter:
     """
 
     def __init__(self, vin, duty, f_sw, l, c_out, r_load):
+        if vin <= 0 or f_sw <= 0 or l <= 0 or c_out <= 0 or r_load <= 0:
+            raise ValueError("vin, f_sw, l, c_out, and r_load must be positive")
+        if not 0 < duty < 1:
+            raise ValueError("duty must be between 0 and 1")
         self.vin = vin
         self.duty = duty
         self.f_sw = f_sw
@@ -59,4 +63,4 @@ class BuckConverter:
 
     def __repr__(self):
         return (f"BuckConverter(Vin={self.vin}V, D={self.duty}, "
-                f"Vout={self.vout:.2f}V, f_sw={self.f_sw}kHz)")
+                f"Vout={self.vout:.2f}V, f_sw={self.f_sw / 1000:g}kHz)")
